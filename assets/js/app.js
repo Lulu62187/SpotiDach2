@@ -10,10 +10,10 @@ const config = {
 };
 
 const getData = async () => {
-    const req = await fetch("./assets/js/data.json");
+    const req = await fetch("http://localhost:3000/api/v1/music");
     dbMusic = await req.json();
-
-    dbMusic.forEach((music) => {
+    data = dbMusic.result;
+    data.forEach((music) => {
         playlist.innerHTML += `<li id="${music.id}"><h2>${music.title}</h2><div><small>${music.category}</small></div></li>`;
     });
 
@@ -22,7 +22,7 @@ const getData = async () => {
     allLi.forEach((li) => {
         li.addEventListener("click", function (elem) {
             const id = parseInt(li.id);
-            const searchById = dbMusic.find((element) => element.id === id);
+            const searchById = data.find((element) => element.id === id);
             lecteur.src = `${config.urlSound}${searchById.sound}`;
             lecteur.play();
             cover.src = `${config.urlCover}${searchById.cover}`;
@@ -111,8 +111,8 @@ formRecherche.addEventListener("submit", function (event) {
 const btnRandom = document.getElementById("btnRandom");
 
 btnRandom.addEventListener("click", function () {
-    const randomIndex = Math.floor(Math.random() * dbMusic.length);
-    const randomMusic = dbMusic[randomIndex];
+    const randomIndex = Math.floor(Math.random() * data.length);
+    const randomMusic = data[randomIndex];
     lecteur.src = `${config.urlSound}${randomMusic.sound}`;
     lecteur.play();
     cover.src = `${config.urlCover}${randomMusic.cover}`;
