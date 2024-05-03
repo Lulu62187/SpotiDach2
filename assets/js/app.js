@@ -2,6 +2,7 @@ const playlist = document.getElementById("playlist");
 const lecteur = document.getElementById("lecteur"); // Correction du sélecteur pour l'élément audio
 const cover = document.getElementById("cover");
 const disque = document.getElementById("disque");
+const btnRandom = document.getElementById("btnRandom");
 let dbMusic;
 
 const config = {
@@ -36,6 +37,25 @@ const getData = async () => {
 
             li.classList.add("clignote");
         });
+
+    });
+    btnRandom.addEventListener("click", function () {
+        const randomIndex = Math.floor(Math.random() * data.length);
+        const randomMusic = data[randomIndex];
+        lecteur.src = `${config.urlSound}${randomMusic.sound}`;
+        lecteur.play();
+        cover.src = `${config.urlCover}${randomMusic.cover}`;
+        if (disque.classList.contains("pause")) {
+            disque.classList.remove("pause");
+        }
+        lecteur.currentTime = 0; // Remet la lecture au début de la piste actuelle
+    
+        // Supprime la classe clignote de tous les éléments de la playlist
+        removeAllClignoteClass();
+    
+        // Sélectionne l'élément de la playlist correspondant à la musique aléatoire et ajoute la classe clignote
+        const randomLi = document.getElementById(randomMusic.id);
+        randomLi.classList.add("clignote");
     });
 };
 
@@ -103,32 +123,6 @@ formRecherche.addEventListener("submit", function (event) {
         }
     });
 });
-
-// Ajout du code pour le bouton Aléatoire
-// Ajout du code pour le bouton Aléatoire
-// Ajout du code pour le bouton Aléatoire
-// Ajout du code pour le bouton Aléatoire
-const btnRandom = document.getElementById("btnRandom");
-
-btnRandom.addEventListener("click", function () {
-    const randomIndex = Math.floor(Math.random() * data.length);
-    const randomMusic = data[randomIndex];
-    lecteur.src = `${config.urlSound}${randomMusic.sound}`;
-    lecteur.play();
-    cover.src = `${config.urlCover}${randomMusic.cover}`;
-    if (disque.classList.contains("pause")) {
-        disque.classList.remove("pause");
-    }
-    lecteur.currentTime = 0; // Remet la lecture au début de la piste actuelle
-
-    // Supprime la classe clignote de tous les éléments de la playlist
-    removeAllClignoteClass();
-
-    // Sélectionne l'élément de la playlist correspondant à la musique aléatoire et ajoute la classe clignote
-    const randomLi = document.getElementById(randomMusic.id);
-    randomLi.classList.add("clignote");
-});
-
 // Fonction pour supprimer la classe clignote de tous les éléments de la playlist
 function removeAllClignoteClass() {
     const allLi = document.querySelectorAll("li");
