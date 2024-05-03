@@ -10,7 +10,7 @@ const config = {
 };
 
 const getData = async () => {
-    const req = await fetch("http://localhost:3000/api/v1/music");
+    const req = await fetch("https://api-jp23.onrender.com/api/v1/musics");
     dbMusic = await req.json();
     data = dbMusic.result;
     data.forEach((music) => {
